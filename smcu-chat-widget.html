@@ -114,6 +114,7 @@
       border-radius: 14px;
     }
     .msg.bot .bubble {
+      white-space: pre-wrap;
       background: #fff;
       color: #1a1a1a;
       border-bottom-left-radius: 4px;
@@ -346,7 +347,7 @@
         <div class="sources-list">${links}</div>`;
     }
 
-    div.innerHTML = `<div class="bubble">${escHtml(text)}</div>${sourcesHtml}`;
+    div.innerHTML = `<div class="bubble">${formatBot(text)}</div>${sourcesHtml}`;
     messagesEl.appendChild(div);
     scrollBottom();
   }
@@ -369,6 +370,11 @@
 
   function scrollBottom() {
     messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  // Bot answers arrive as light Markdown: keep line breaks (CSS) and show **bold** as bold.
+  function formatBot(str) {
+    return escHtml(str).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   }
 
   function escHtml(str) {
